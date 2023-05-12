@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4fe8e943-1876-4d8f-bf12-7641d02502b7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LowLevelDesign/DesignATM/ATM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LowLevelDesign/DesignATM/ATM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LowLevelDesign/DesignATM/ATMStates/CashWithdrawalState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LowLevelDesign/DesignATM/ATMStates/CashWithdrawalState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LowLevelDesign/DesignATM/AmountWithdrawal/OneHundredWithdrawProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LowLevelDesign/DesignATM/AmountWithdrawal/OneHundredWithdrawProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LowLevelDesign/DesignATM/AmountWithdrawal/TwoThousandWithdrawProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LowLevelDesign/DesignATM/AmountWithdrawal/TwoThousandWithdrawProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LowLevelDesign/DesignATM/ATMRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LowLevelDesign/DesignATM/ATMRoom.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
