@@ -1,6 +1,10 @@
 package LowLevelDesign.DesignATM.ATMStates;
 
 import LowLevelDesign.DesignATM.ATM;
+import LowLevelDesign.DesignATM.AmountWithdrawal.CashWithdrawProcessor;
+import LowLevelDesign.DesignATM.AmountWithdrawal.FiveHundredWithdrawProcessor;
+import LowLevelDesign.DesignATM.AmountWithdrawal.OneHundredWithdrawProcessor;
+import LowLevelDesign.DesignATM.AmountWithdrawal.TwoThousandWithdrawProcessor;
 import LowLevelDesign.DesignATM.Card;
 
 public class CashWithdrawalState extends ATMState{
@@ -19,6 +23,11 @@ public class CashWithdrawalState extends ATMState{
          else {
              card.deductBankBalance(withdrawalAmount);
              atmObject.deductATMBalance(withdrawalAmount);
+
+             CashWithdrawProcessor withdrawProcessor =
+                     new TwoThousandWithdrawProcessor(new FiveHundredWithdrawProcessor(new OneHundredWithdrawProcessor(null)));
+             withdrawProcessor.withdraw(atmObject,withdrawalAmount);
+             exit(atmObject);
          }
      }
      @Override

@@ -7,6 +7,9 @@ public class ATM {
     private static ATM atmObject = new ATM();
     ATMState currentATMState;
     private int atmBalance;
+    int noOfFiveHundredNotes;
+    int noOfOneHundredNotes;
+    int noOfTwoThousandNotes;
 
     private ATM(){
 
@@ -21,10 +24,35 @@ public class ATM {
         atmObject.setCurrentATMState(new IdleState());
         return atmObject;
     }
+    public void setAtmBalance(int atmBalance,int noOfFiveHundredNotes,int noOfOneHundredNotes,int noOfTwoThousandNotes){
+        this.atmBalance = atmBalance;
+        this.noOfFiveHundredNotes = noOfFiveHundredNotes;
+        this.noOfOneHundredNotes = noOfOneHundredNotes;
+        this.noOfTwoThousandNotes = noOfTwoThousandNotes;
+
+    }
     public int getAtmBalance(){
         return atmBalance;
     }
     public void deductATMBalance(int amount){
         atmBalance = atmBalance-amount;
+    }
+    public int getNoOfFiveHundredNotes(){
+        return noOfFiveHundredNotes;
+    }
+    public int getNoOOneHundredNotes(){
+        return noOfOneHundredNotes;
+    }
+    public int getNoOfTwoThousandNotes(){
+        return noOfTwoThousandNotes;
+    }
+    public void deductFiveHundredNotes(int number){
+        noOfFiveHundredNotes = noOfFiveHundredNotes-number;
+    }
+    public void deductOneHundredNotes(int number){
+        noOfOneHundredNotes = noOfOneHundredNotes-number;
+    }
+    public void deductTwoThousandNotes(int number){
+        noOfTwoThousandNotes = noOfTwoThousandNotes-number;
     }
 }
