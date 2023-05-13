@@ -5,25 +5,31 @@ import LowLevelDesign.DesignATM.Card;
 import LowLevelDesign.DesignATM.TransactionType;
 
 public abstract class ATMState {
-    public void insertCard(ATM atm, Card card){
+    public void insertCard(ATM atm, Card card) {
         System.out.println("OOPS!! Something went wrong");
     }
-    public void authenticatePin(ATM atm, Card card, int pin){
+
+    public void authenticatePin(ATM atm, Card card, int pin) {
         System.out.println("OOPS!! Something went wrong");
     }
-    public void selectOperation(ATM atm, Card card, TransactionType transactionType){
+
+    public void selectOperation(ATM atm, Card card, TransactionType transactionType) {
         System.out.println("OOPS!! Something went wrong");
     }
-    public void cashWithdrawal(ATM atm,Card card,int withdrawalAmount){
+
+    public void cashWithdrawal(ATM atm, Card card, int withdrawalAmount) {
         System.out.println("OOPS !! Something went wrong");
     }
-    public void displayBalance(ATM atm, Card card){
+
+    public void displayBalance(ATM atm, Card card) {
         System.out.println("OOPS !! Something went wrong");
     }
-    public void exit(ATM atm){
+
+    public void exit(ATM atm) {
         System.out.println("OOPS !! Something went wrong");
     }
-    public void returnCard(){
+
+    public void returnCard() {
         System.out.println("OOPs !! Something went wrong");
     }
 }

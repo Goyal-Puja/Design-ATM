@@ -4,37 +4,41 @@ import LowLevelDesign.DesignATM.ATM;
 import LowLevelDesign.DesignATM.Card;
 import LowLevelDesign.DesignATM.TransactionType;
 
-public class SelectOperationState extends ATMState{
-    public SelectOperationState(){
-         showOperation();
+public class SelectOperationState extends ATMState {
+    public SelectOperationState() {
+        showOperation();
     }
+
     @Override
-    public void selectOperation(ATM atmObject, Card card, TransactionType transactionType){
-        switch (transactionType){
+    public void selectOperation(ATM atmObject, Card card, TransactionType transactionType) {
+        switch (transactionType) {
             case CASH_WITHDRAWAL:
                 atmObject.setCurrentATMState(new CashWithdrawalState());
                 break;
             case BALANCE_CHECK:
                 atmObject.setCurrentATMState(new CheckBalanceState());
                 break;
-            default:{
+            default: {
                 System.out.println("Invalid Option");
                 exit(atmObject);
             }
         }
 
     }
+
     @Override
-    public void exit(ATM atmObject){
+    public void exit(ATM atmObject) {
         returnCard();
         atmObject.setCurrentATMState(new IdleState());
         System.out.println("Exit Happens");
     }
+
     @Override
-    public void returnCard(){
+    public void returnCard() {
         System.out.println("Please collect your card");
     }
-    private void showOperation(){
+
+    private void showOperation() {
         System.out.println("Please select the operation");
         TransactionType.showAllTransactionTypes();
     }

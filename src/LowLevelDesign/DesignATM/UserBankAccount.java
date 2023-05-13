@@ -2,7 +2,8 @@ package LowLevelDesign.DesignATM;
 
 public class UserBankAccount {
     int balance;
-    public void withdrawalBalance(int amount){
-        balance = balance-amount;
+
+    public void withdrawalBalance(int amount) {
+        balance = balance - amount;
     }
 }

@@ -8,19 +8,22 @@ public class Card {
     static int PIN_NUMBER = 112211;
     private UserBankAccount bankAccount;
 
-    public boolean isCorrectedPINEntered(int pin){
-        if(pin == PIN_NUMBER){
+    public boolean isCorrectedPINEntered(int pin) {
+        if (pin == PIN_NUMBER) {
             return true;
         }
         return false;
     }
-    public int getBankBalance(){
+
+    public int getBankBalance() {
         return bankAccount.balance;
     }
-    public void deductBankBalance(int amount){
+
+    public void deductBankBalance(int amount) {
         bankAccount.withdrawalBalance(amount);
     }
-    public void setBankAccount(UserBankAccount bankAccount){
+
+    public void setBankAccount(UserBankAccount bankAccount) {
         this.bankAccount = bankAccount;
     }
 }

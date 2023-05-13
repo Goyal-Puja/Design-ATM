@@ -11,54 +11,67 @@ public class ATM {
     int noOfOneHundredNotes;
     int noOfTwoThousandNotes;
 
-    private ATM(){
+    private ATM() {
 
     }
-    public void setCurrentATMState(ATMState currentATMState){
+
+    public void setCurrentATMState(ATMState currentATMState) {
         this.currentATMState = currentATMState;
     }
-    public ATMState getCurrentATMState(){
+
+    public ATMState getCurrentATMState() {
         return currentATMState;
     }
-    public static ATM getAtmObject(){
+
+    public static ATM getAtmObject() {
         atmObject.setCurrentATMState(new IdleState());
         return atmObject;
     }
-    public void setAtmBalance(int atmBalance,int noOfFiveHundredNotes,int noOfOneHundredNotes,int noOfTwoThousandNotes){
+
+    public void setAtmBalance(int atmBalance, int noOfFiveHundredNotes, int noOfOneHundredNotes, int noOfTwoThousandNotes) {
         this.atmBalance = atmBalance;
         this.noOfFiveHundredNotes = noOfFiveHundredNotes;
         this.noOfOneHundredNotes = noOfOneHundredNotes;
         this.noOfTwoThousandNotes = noOfTwoThousandNotes;
 
     }
-    public int getAtmBalance(){
+
+    public int getAtmBalance() {
         return atmBalance;
     }
-    public void deductATMBalance(int amount){
-        atmBalance = atmBalance-amount;
+
+    public void deductATMBalance(int amount) {
+        atmBalance = atmBalance - amount;
     }
-    public int getNoOfFiveHundredNotes(){
+
+    public int getNoOfFiveHundredNotes() {
         return noOfFiveHundredNotes;
     }
-    public int getNoOOneHundredNotes(){
+
+    public int getNoOOneHundredNotes() {
         return noOfOneHundredNotes;
     }
-    public int getNoOfTwoThousandNotes(){
+
+    public int getNoOfTwoThousandNotes() {
         return noOfTwoThousandNotes;
     }
-    public void deductFiveHundredNotes(int number){
-        noOfFiveHundredNotes = noOfFiveHundredNotes-number;
+
+    public void deductFiveHundredNotes(int number) {
+        noOfFiveHundredNotes = noOfFiveHundredNotes - number;
     }
-    public void deductOneHundredNotes(int number){
-        noOfOneHundredNotes = noOfOneHundredNotes-number;
+
+    public void deductOneHundredNotes(int number) {
+        noOfOneHundredNotes = noOfOneHundredNotes - number;
     }
-    public void deductTwoThousandNotes(int number){
-        noOfTwoThousandNotes = noOfTwoThousandNotes-number;
+
+    public void deductTwoThousandNotes(int number) {
+        noOfTwoThousandNotes = noOfTwoThousandNotes - number;
     }
-    public void printCurrentATMStatus(){
-        System.out.println("Balance: "+atmBalance);
-        System.out.println("No of Two Thousand : "+noOfTwoThousandNotes);
-        System.out.println("No of One Hundred : "+noOfOneHundredNotes);
-        System.out.println("No of Five Hundred : "+noOfFiveHundredNotes);
+
+    public void printCurrentATMStatus() {
+        System.out.println("Balance: " + atmBalance);
+        System.out.println("No of Two Thousand : " + noOfTwoThousandNotes);
+        System.out.println("No of One Hundred : " + noOfOneHundredNotes);
+        System.out.println("No of Five Hundred : " + noOfFiveHundredNotes);
     }
 }
