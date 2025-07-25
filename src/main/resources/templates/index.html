@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureBank ATM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .atm-container {
+            background: #2c3e50;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .atm-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .atm-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .bank-logo {
+            color: #4facfe;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .atm-title {
+            color: #ecf0f1;
+            font-size: 18px;
+            font-weight: 300;
+        }
+
+        .screen {
+            background: #1a252f;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            min-height: 200px;
+            border: 3px solid #34495e;
+            position: relative;
+        }
+
+        .screen::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 12px;
+            height: 12px;
+            background: #27ae60;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #27ae60;
+        }
+
+        .screen-content {
+            color: #4facfe;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .welcome-message {
+            text-align: center;
+            font-size: 18px;
+            color: #4facfe;
+            margin-bottom: 15px;
+        }
+
+        .status-info {
+            background: rgba(79, 172, 254, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #4facfe;
+        }
+
+        .input-section {
+            margin: 20px 0;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #bdc3c7;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            background: #34495e;
+            color: #ecf0f1;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            background: #445566;
+            box-shadow: 0 0 10px rgba(79, 172, 254, 0.3);
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .amount-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .amount-btn {
+            padding: 12px;
+            background: #34495e;
+            color: #ecf0f1;
+            border: 2px solid #4facfe;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .amount-btn:hover {
+            background: #4facfe;
+            color: white;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .balance-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .balance-amount {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .transaction-success {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .card-slot {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            width: 80px;
+            height: 8px;
+            background: #34495e;
+            border-radius: 4px;
+            border: 2px solid #4facfe;
+        }
+
+        .card-slot.active {
+            background: #4facfe;
+            box-shadow: 0 0 10px #4facfe;
+        }
+    </style>
+</head>
+<body>
+    <div class="atm-container">
+        <div class="card-slot" id="cardSlot"></div>
+        
+        <div class="atm-header">
+            <div class="bank-logo">🏦 SecureBank</div>
+            <div class="atm-title">Automated Teller Machine</div>
+        </div>
+
+        <div class="screen">
+            <div class="screen-content" id="screenContent">
+                <div class="welcome-message">Welcome to SecureBank ATM</div>
+                <div class="status-info">
+                    <div>Please insert your card to begin</div>
+                    <div style="margin-top: 10px; font-size: 14px; color: #95a5a6;">
+                        Demo Card: Any number will work<br>
+                        PIN: 112211
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Initial Screen -->
+        <div id="initialScreen">
+            <div class="input-group">
+                <label for="cardNumber">Card Number</label>
+                <input type="text" id="cardNumber" placeholder="Enter your card number" maxlength="16">
+            </div>
+            <div class="button-grid">
+                <button class="btn btn-primary" onclick="insertCard()">Insert Card</button>
+                <button class="btn btn-secondary" onclick="showATMStatus()">ATM Status</button>
+            </div>
+        </div>
+
+        <!-- PIN Entry Screen -->
+        <div id="pinScreen" class="hidden">
+            <div class="input-group">
+                <label for="pinNumber">Enter PIN</label>
+                <input type="password" id="pinNumber" placeholder="Enter your 6-digit PIN" maxlength="6">
+            </div>
+            <div class="button-grid">
+                <button class="btn btn-primary" onclick="authenticatePin()">Enter</button>
+                <button class="btn btn-danger" onclick="cancelTransaction()">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Main Menu Screen -->
+        <div id="mainMenuScreen" class="hidden">
+            <div class="button-grid">
+                <button class="btn btn-primary" onclick="selectWithdrawal()">Cash Withdrawal</button>
+                <button class="btn btn-secondary" onclick="checkBalance()">Balance Inquiry</button>
+            </div>
+            <div class="button-grid" style="margin-top: 15px;">
+                <button class="btn btn-danger" onclick="exitATM()">Exit</button>
+            </div>
+        </div>
+
+        <!-- Withdrawal Screen -->
+        <div id="withdrawalScreen" class="hidden">
+            <div class="amount-buttons">
+                <button class="amount-btn" onclick="selectAmount(500)">₹500</button>
+                <button class="amount-btn" onclick="selectAmount(1000)">₹1000</button>
+                <button class="amount-btn" onclick="selectAmount(2000)">₹2000</button>
+                <button class="amount-btn" onclick="selectAmount(5000)">₹5000</button>
+                <button class="amount-btn" onclick="selectAmount(10000)">₹10000</button>
+                <button class="amount-btn" onclick="showCustomAmount()">Other</button>
+            </div>
+            
+            <div id="customAmountSection" class="hidden">
+                <div class="input-group">
+                    <label for="customAmount">Enter Amount (Multiple of 100)</label>
+                    <input type="number" id="customAmount" placeholder="Enter amount" min="100" step="100">
+                </div>
+                <button class="btn btn-success" onclick="withdrawCustomAmount()">Withdraw</button>
+            </div>
+            
+            <div class="button-grid" style="margin-top: 15px;">
+                <button class="btn btn-secondary" onclick="showMainMenu()">Back</button>
+                <button class="btn btn-danger" onclick="exitATM()">Exit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentState = 'initial';
+        let atmStatus = null;
+
+        async function makeAPICall(endpoint, method = 'GET', data = null) {
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                };
+                
+                if (data) {
+                    options.body = JSON.stringify(data);
+                }
+
+                const response = await fetch(endpoint, options);
+                return await response.json();
+            } catch (error) {
+                console.error('API call failed:', error);
+                return { success: false, message: 'Network error occurred' };
+            }
+        }
+
+        function updateScreen(content) {
+            document.getElementById('screenContent').innerHTML = content;
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('[id$="Screen"]').forEach(screen => {
+                screen.classList.add('hidden');
+            });
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        async function insertCard() {
+            const cardNumber = document.getElementById('cardNumber').value;
+            if (!cardNumber) {
+                updateScreen('<div class="error-message">Please enter a card number</div>');
+                return;
+            }
+
+            updateScreen('<div class="welcome-message">Processing card... <span class="loading"></span></div>');
+            document.getElementById('cardSlot').classList.add('active');
+
+            const response = await makeAPICall('/api/insert-card', 'POST', { cardNumber: cardNumber });
+            
+            if (response.success) {
+                updateScreen(`<div class="welcome-message">${response.message}</div>`);
+                currentState = 'pin';
+                showScreen('pinScreen');
+            } else {
+                updateScreen(`<div class="error-message">${response.message}</div>`);
+            }
+        }
+
+        async function authenticatePin() {
+            const pin = document.getElementById('pinNumber').value;
+            if (!pin || pin.length !== 6) {
+                updateScreen('<div class="error-message">Please enter a 6-digit PIN</div>');
+                return;
+            }
+
+            updateScreen('<div class="welcome-message">Verifying PIN... <span class="loading"></span></div>');
+
+            const response = await makeAPICall('/api/authenticate', 'POST', { pin: parseInt(pin) });
+            
+            if (response.success) {
+                updateScreen(`<div class="welcome-message">${response.message}</div>`);
+                currentState = 'menu';
+                showScreen('mainMenuScreen');
+            } else {
+                updateScreen(`<div class="error-message">${response.message}</div>`);
+            }
+        }
+
+        async function selectWithdrawal() {
+            updateScreen('<div class="welcome-message">Cash Withdrawal Selected</div><div class="status-info">Please select withdrawal amount</div>');
+            
+            const response = await makeAPICall('/api/select-operation', 'POST', { operation: 'CASH_WITHDRAWAL' });
+            
+            if (response.success) {
+                currentState = 'withdrawal';
+                showScreen('withdrawalScreen');
+            } else {
+                updateScreen(`<div class="error-message">${response.message}</div>`);
+            }
+        }
+
+        async function checkBalance() {
+            updateScreen('<div class="welcome-message">Checking balance... <span class="loading"></span></div>');
+            
+            const response = await makeAPICall('/api/balance');
+            
+            if (response.success) {
+                const balance = response.data.balance;
+                updateScreen(`
+                    <div class="balance-display">
+                        <div>Account Balance</div>
+                        <div class="balance-amount">₹${balance.toLocaleString('en-IN')}</div>
+                    </div>
+                    <div style="text-align: center; margin-top: 15px; color: #95a5a6;">
+                        Thank you for banking with us
+                    </div>
+                `);
+                
+                setTimeout(() => {
+                    showMainMenu();
+                }, 3000);
+            } else {
+                updateScreen(`<div class="error-message">${response.message}</div>`);
+            }
+        }
+
+        function selectAmount(amount) {
+            withdrawMoney(amount);
+        }
+
+        function showCustomAmount() {
+            document.getElementById('customAmountSection').classList.remove('hidden');
+        }
+
+        function withdrawCustomAmount() {
+            const amount = parseInt(document.getElementById('customAmount').value);
+            if (!amount || amount < 100 || amount % 100 !== 0) {
+                updateScreen('<div class="error-message">Please enter a valid amount (multiple of 100)</div>');
+                return;
+            }
+            withdrawMoney(amount);
+        }
+
+        async function withdrawMoney(amount) {
+            updateScreen(`<div class="welcome-message">Processing withdrawal of ₹${amount.toLocaleString('en-IN')}... <span class="loading"></span></div>`);
+            
+            const response = await makeAPICall('/api/withdraw', 'POST', { amount: amount });
+            
+            if (response.success) {
+                const data = response.data;
+                updateScreen(`
+                    <div class="transaction-success">
+                        <div>Transaction Successful!</div>
+                        <div style="margin-top: 10px;">Amount Withdrawn: ₹${data.amount.toLocaleString('en-IN')}</div>
+                        <div>Remaining Balance: ₹${data.remainingBalance.toLocaleString('en-IN')}</div>
+                        <div style="margin-top: 15px; font-size: 14px;">
+                            Please collect your cash and card
+                        </div>
+                    </div>
+                `);
+                
+                setTimeout(() => {
+                    exitATM();
+                }, 5000);
+            } else {
+                updateScreen(`<div class="error-message">${response.message}</div>`);
+                setTimeout(() => {
+                    showMainMenu();
+                }, 3000);
+            }
+        }
+
+        function showMainMenu() {
+            updateScreen('<div class="welcome-message">Please select a transaction</div>');
+            currentState = 'menu';
+            showScreen('mainMenuScreen');
+        }
+
+        async function showATMStatus() {
+            updateScreen('<div class="welcome-message">Loading ATM status... <span class="loading"></span></div>');
+            
+            const response = await makeAPICall('/api/status');
+            
+            updateScreen(`
+                <div class="welcome-message">ATM Status</div>
+                <div class="status-info">
+                    <div><strong>ATM Balance:</strong> ₹${response.atmBalance.toLocaleString('en-IN')}</div>
+                    <div><strong>₹2000 Notes:</strong> ${response.twoThousandNotes}</div>
+                    <div><strong>₹500 Notes:</strong> ${response.fiveHundredNotes}</div>
+                    <div><strong>₹100 Notes:</strong> ${response.oneHundredNotes}</div>
+                    <div style="margin-top: 10px;">
+                        <strong>Status:</strong> ${response.cardInserted ? 'Card Inserted' : 'Ready for Service'}
+                    </div>
+                </div>
+            `);
+        }
+
+        async function exitATM() {
+            updateScreen('<div class="welcome-message">Processing exit... <span class="loading"></span></div>');
+            
+            const response = await makeAPICall('/api/exit', 'POST');
+            
+            updateScreen(`
+                <div class="transaction-success">
+                    ${response.message}
+                </div>
+                <div style="text-align: center; margin-top: 15px; color: #95a5a6;">
+                    Returning to main screen...
+                </div>
+            `);
+            
+            document.getElementById('cardSlot').classList.remove('active');
+            
+            setTimeout(() => {
+                resetATM();
+            }, 3000);
+        }
+
+        function cancelTransaction() {
+            exitATM();
+        }
+
+        function resetATM() {
+            currentState = 'initial';
+            document.getElementById('cardNumber').value = '';
+            document.getElementById('pinNumber').value = '';
+            document.getElementById('customAmount').value = '';
+            document.getElementById('customAmountSection').classList.add('hidden');
+            
+            updateScreen(`
+                <div class="welcome-message">Welcome to SecureBank ATM</div>
+                <div class="status-info">
+                    <div>Please insert your card to begin</div>
+                    <div style="margin-top: 10px; font-size: 14px; color: #95a5a6;">
+                        Demo Card: Any number will work<br>
+                        PIN: 112211
+                    </div>
+                </div>
+            `);
+            
+            showScreen('initialScreen');
+        }
+
+        // Initialize ATM on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            resetATM();
+        });
+    </script>
+</body>
+</html>
